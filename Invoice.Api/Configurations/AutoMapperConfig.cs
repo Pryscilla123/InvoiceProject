@@ -10,6 +10,7 @@ namespace Invoice.Api.Configurations
         {
             CreateMap<Fatura, FaturaViewModel>().ReverseMap();
             CreateMap<FaturaItem, FaturaItemViewModel>().ReverseMap();
+            CreateMap<RelatorioCliente, RelatorioClienteViewModel>().ReverseMap();
         }
     }
 }

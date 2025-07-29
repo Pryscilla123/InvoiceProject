@@ -8,6 +8,6 @@ namespace Invoice.Business.Interfaces
         Task<Fatura> ObterFaturaPorId(int id);
         Task AdicionarFatura(Fatura fatura);
         Task AtualizarFatura(Fatura fatura);
-        Task RemoverFatura(int id);
+        Task RemoverFatura(Fatura fatura);
     }
 }

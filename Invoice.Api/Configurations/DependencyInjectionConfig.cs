@@ -1,4 +1,5 @@
 ﻿using Invoice.Business.Interfaces;
+using Invoice.Business.Models;
 using Invoice.Business.Notificacoes;
 using Invoice.Business.Services;
 using Invoice.Data.Repository;
@@ -16,6 +17,7 @@ namespace Invoice.Api.Configurations
             //Services
             services.AddScoped<INotificador, Notificador>();
             services.AddScoped<IFaturaService, FaturaService>();
+            services.AddScoped<IRelatorioService, RelatorioService>();
 
             return services;
         }

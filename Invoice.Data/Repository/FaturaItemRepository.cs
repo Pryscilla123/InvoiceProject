@@ -14,12 +14,6 @@ namespace Invoice.Data.Repository
             _context = context;
             _faturaItems = context.Set<FaturaItem>();
         }
-
-        public async Task AdicionarFaturaItem(FaturaItem faturaItem)
-        {
-            await _faturaItems.AddAsync(faturaItem);
-            await _context.SaveChangesAsync();
-        }
         public async Task AtualizarFaturaItem(FaturaItem faturaItem)
         {
             _faturaItems.Update(faturaItem);
@@ -33,10 +27,10 @@ namespace Invoice.Data.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<FaturaItem>> ObterFaturaItensPorFaturaId(int faturaId)
+        public async Task<IEnumerable<FaturaItem>> ObterFaturaItensPorId(int faturaItemId)
         {
             return await _faturaItems
-                .Where(fi => fi.FaturaId == faturaId)
+                .Where(fi => fi.FaturaItemId == faturaItemId)
                 .ToListAsync();
         }
     }

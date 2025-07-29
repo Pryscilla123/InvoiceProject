@@ -15,56 +15,49 @@ namespace Invoice.Business.Services
             _faturaRepository = faturaRepository;
             _faturaItemRepository = faturaItemRepository;
         }
+
         public async Task<bool> AdicionarFatura(Fatura fatura)
         {
-            if (!ExecutarValidacao(new FaturaValidation(), fatura))
-            {
-                return false;
-            }
-
-            if (fatura.FaturaItem == null || !fatura.FaturaItem.Any())
-            {
-                Notificar("A fatura deve conter pelo menos um item.");
-                return false;
-            }
+            var validator = new FaturaValidation();
 
             foreach (var item in fatura.FaturaItem)
             {
-                if (!ExecutarValidacao(new FaturaItemValidation(), item))
-                {
-                    return false;
-                }
+                item.Fatura = fatura;
+            }
+
+            var resultadoValidacao = validator.Validate(fatura);
+
+            if (!resultadoValidacao.IsValid)
+            {
+                Notificar(resultadoValidacao);
+                return false;
             }
 
             await _faturaRepository.AdicionarFatura(fatura);
-
-            foreach (var item in fatura.FaturaItem)
-            {
-                item.FaturaId = fatura.FaturaId; // Associa o item à fatura
-                await _faturaItemRepository.AdicionarFaturaItem(item);
-            }
-
             return true;
         }
 
-        public bool AtualizarFatura(Fatura fatura)
+        public async Task<bool> AtualizarFatura(Fatura fatura)
         {
             if (!ExecutarValidacao(new FaturaValidation(), fatura))
             {
                 return false;
             }
 
-            _faturaRepository.AtualizarFatura(fatura);
+            await _faturaRepository.AtualizarFatura(fatura);
+
             return true;
         }
 
-        public void RemoverFatura(Fatura fatura)
+        public async Task<bool> RemoverFatura(int id)
         {
-            foreach (var item in fatura.FaturaItem)
-            {
-                _faturaItemRepository.RemoverFaturaItem(item.FaturaItemId);
-            }
-            _faturaRepository.RemoverFatura(fatura.FaturaId);
+            Fatura fatura = await _faturaRepository.ObterFaturaPorId(id);
+
+            if (fatura == null) return false;
+
+            await _faturaRepository.RemoverFatura(fatura);
+
+            return true;
         }
     }
 }

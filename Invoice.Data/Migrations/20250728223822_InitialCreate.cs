@@ -44,7 +44,8 @@ namespace Invoice.Data.Migrations
                         name: "FK_FaturaItem_Fatura_FaturaId",
                         column: x => x.FaturaId,
                         principalTable: "Fatura",
-                        principalColumn: "FaturaId");
+                        principalColumn: "FaturaId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

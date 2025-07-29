@@ -51,7 +51,12 @@ namespace Invoice.Api.Controllers
 
             var fatura = _mapper.Map<Fatura>(faturaViewModel);
 
-            await _faturaService.AdicionarFatura(fatura);
+            var result = await _faturaService.AdicionarFatura(fatura);
+
+            if(!result)
+            {
+                return CustomResponse(faturaViewModel);
+            }
 
             return CustomResponse(faturaViewModel);
         }
@@ -64,11 +69,18 @@ namespace Invoice.Api.Controllers
                 NotificarErro("O id informado não é o mesmo que foi passado na query.");
                 return CustomResponse(faturaViewModel);
             }
+
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             var fatura = _mapper.Map<Fatura>(faturaViewModel);
 
-            _faturaService.AtualizarFatura(fatura);
+            var result = await _faturaService.AtualizarFatura(fatura);
+
+            if(!result)
+            {
+                NotificarErro("Não foi possível atualizar a fatura.");
+                return CustomResponse(faturaViewModel);
+            }
 
             return CustomResponse(faturaViewModel);
         }
@@ -80,7 +92,13 @@ namespace Invoice.Api.Controllers
 
             if (fatura == null) return NotFound();
 
-            _faturaService.RemoverFatura(fatura);
+            var result = await _faturaService.RemoverFatura(id);
+
+            if (!result)
+            {
+                NotificarErro("Não foi possível remover a fatura.");
+                return CustomResponse();
+            }
 
             return CustomResponse();
         }

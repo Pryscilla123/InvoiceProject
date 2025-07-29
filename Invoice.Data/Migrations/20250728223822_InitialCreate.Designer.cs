@@ -12,7 +12,7 @@ using TesteDengine;
 namespace Invoice.Data.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20250727205403_InitialCreate")]
+    [Migration("20250728223822_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

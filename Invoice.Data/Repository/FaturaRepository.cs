@@ -17,7 +17,7 @@ namespace Invoice.Data.Repository
 
         public async Task<IEnumerable<Fatura>> ObterFaturas()
         {
-            return await _faturas.ToListAsync();
+            return await Db.Fatura.Include(f => f.FaturaItem).ToListAsync();
         }
 
         public async Task<Fatura> ObterFaturaPorId(int id)
@@ -38,10 +38,8 @@ namespace Invoice.Data.Repository
             _faturas.Update(fatura);
             await Db.SaveChangesAsync();
         }
-        public async Task RemoverFatura(int id)
+        public async Task RemoverFatura(Fatura fatura)
         {
-            var fatura = await ObterFaturaPorId(id);
-            if (fatura == null) return;
             _faturas.Remove(fatura);
             await Db.SaveChangesAsync();
         }

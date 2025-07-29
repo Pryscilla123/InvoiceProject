@@ -4,8 +4,7 @@ namespace Invoice.Business.Interfaces
 {
     public interface IFaturaItemRepository
     {
-        Task<IEnumerable<FaturaItem>> ObterFaturaItensPorFaturaId(int faturaId);
-        Task AdicionarFaturaItem(FaturaItem faturaItem);
+        Task<IEnumerable<FaturaItem>> ObterFaturaItensPorId(int faturaItemId);
         Task AtualizarFaturaItem(FaturaItem faturaItem);
         Task RemoverFaturaItem(int id);
     }
